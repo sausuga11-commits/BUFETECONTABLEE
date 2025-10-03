@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asociación de Contadores - Plataforma Digital</title>
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#009739">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Contadores PWA">
+  <meta name="description" content="Servicios contables NIIF - Nacional e Internacional">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkFzb2NpYWNpw7NuIGRlIENvbnRhZG9yZXMgUMO6YmxpY29zIiwKICAic2hvcnRfbmFtZSI6ICJDb250YWRvcmVzIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZGZkZmQiLAogICJ0aGVtZV9jb2xvciI6ICIjMDA5NzM5IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRJNElpQm9aV2xuYUhROUlqRXlPQ0lnZG1sbGQwSnZlRDBpTUNBd0lERXlPQ0F4TWpnaUlIaHRiRzV6UFNKb2RIUndPaTh2ZDNkM0xuY3pMbTl5Wnk4eU1EQXdMM04yWnlJK1BISmxZM1FnZUQwaU1UQWlJSGs5SWpFd0lpQjNhV1IwYUQwaU1UQTRJaUJvWldsbmFIUTlJakV3T0NJZ1ptbHNiRDBpSXpBd09UY3pPU0l2UGp4MFpYaDBJSGc5SWpZMElpQjVQU0kyTkNJZ1ptbHNiRDBpSTJabVptSWlJRzl3WVdOcGRIazlJaTQySWo0Mld5M3VVeUE4TDNSbGVIUStQQzl6ZG1jKyIsCiAgICAgICJzaXplcyI6ICIxMjh4MTI4IiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTlRFeUlpQm9aV2xuYUhROUlqVXhNaUlnZG1sbGQwSnZlRDBpTUNBd0lEVXhNaUExTVRJaUlIaHRiRzV6UFNKb2RIUndPaTh2ZDNkM0xuY3pMbTl5Wnk4eU1EQXdMM04yWnlJK1BISmxZM1FnZUQwaU1UQWlJSGs5SWpFd0lpQjNhV1IwYUQwaU5Ea3lJaUJvWldsbmFIUTlJalE1TWlJZ1ptbHNiRDBpSXpBd09UY3pPU0l2UGp4MFpYaDBJSGc5SWpJMU5pSWdlVDBpTWpVMklpQm1hV3hzUFNJalpqWm1abVlpSUc5d1lXTnBkSGs5SWk0NElpNDJXeXorVXlBOEwzUmxlSFErUEM5emRtYysiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9CiAgXQp9">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #fdfdfd; font-family: 'Segoe UI', sans-serif; }
+    .header { background: linear-gradient(90deg, #ffcc00, #009739, #d81e05); }
+    .card { transition: transform 0.3s ease; }
+    .card:hover { transform: scale(1.05); }
+    .pwa-install-btn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- PWA Install Button -->
+  <button id="installBtn" class="pwa-install-btn bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-lg hidden">
+    📱 Instalar App
+  </button>
+
+  <!-- Header -->
+  <header class="header text-white p-6 shadow-lg">
+    <h1 class="text-2xl font-bold text-center">🌍 Asociación de Contadores Públicos</h1>
+    <p class="text-center text-sm">Servicios contables de alto nivel - Nacional e Internacional</p>
+    <div id="connectionStatus" class="text-center text-xs mt-2"></div>
+  </header>
+
+  <!-- Paquetes -->
+  <section class="p-6">
+    <h2 class="text-xl font-semibold mb-4 text-center">📦 Paquetes Contables (NIIF y Globales)</h2>
+    <div id="paquetes" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+  </section>
+
+  <!-- Roles -->
+  <section class="p-6 bg-gray-100">
+    <h2 class="text-xl font-semibold mb-4 text-center">👥 Nuestro Equipo</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="p-4 bg-white rounded-xl shadow card">
+        <h3 class="font-bold text-lg mb-2">Contadores (80%)</h3>
+        <ul class="list-disc list-inside text-sm">
+          <li>Asesores tributarios</li>
+          <li>Auditores externos</li>
+          <li>Especialistas en NIIF (Grupos 1, 2, 3)</li>
+          <li>Consultores internacionales</li>
+        </ul>
+      </div>
+      <div class="p-4 bg-white rounded-xl shadow card">
+        <h3 class="font-bold text-lg mb-2">Administrativos (20%)</h3>
+        <ul class="list-disc list-inside text-sm">
+          <li>Gestión de clientes</li>
+          <li>Soporte técnico</li>
+          <li>Agendamiento de citas</li>
+          <li>Atención post-servicio</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Historial de compras -->
+  <section class="p-6">
+    <h2 class="text-xl font-semibold mb-4 text-center">🧾 Historial de Compras</h2>
+    <ul id="historial" class="space-y-2 text-sm bg-gray-50 p-4 rounded-lg shadow-inner"></ul>
+  </section>
+
+  <!-- Contacto -->
+  <section class="p-6 bg-gray-200">
+    <h2 class="text-xl font-semibold mb-4 text-center">📞 Contacto de la Empresa</h2>
+    <div class="text-center text-sm">
+      <p>📧 Correo: <a href="mailto:globalcont@gmail.com" class="text-blue-700 underline">globalcont@gmail.com</a></p>
+      <p>📱 Teléfono: <a href="tel:+573124419080" class="text-blue-700 underline">3124419080</a></p>
+      <p>📍 Dirección: Cra 7 #19-02 Oficina 227, Pereira</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="header text-white text-center p-4 mt-6">
+    <p class="text-sm">© 2025 Asociación de Contadores Públicos | PWA</p>
+  </footer>
+
+  <script>
+    // PWA Installation
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.classList.remove('hidden');
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          installBtn.classList.add('hidden');
+        }
+        deferredPrompt = null;
+      }
+    });
+
+    // Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        const swCode = `
+          const CACHE_NAME = 'contadores-v1';
+          const urlsToCache = [
+            '/',
+            'https://cdn.tailwindcss.com'
+          ];
+
+          self.addEventListener('install', event => {
+            event.waitUntil(
+              caches.open(CACHE_NAME)
+                .then(cache => cache.addAll(urlsToCache))
+            );
+          });
+
+          self.addEventListener('fetch', event => {
+            event.respondWith(
+              caches.match(event.request)
+                .then(response => {
+                  if (response) {
+                    return response;
+                  }
+                  return fetch(event.request);
+                })
+            );
+          });
+        `;
+        
+        const blob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+        
+        navigator.serviceWorker.register(swUrl)
+          .then(registration => {
+            console.log('SW registrado:', registration);
+            updateConnectionStatus(true);
+          })
+          .catch(error => {
+            console.log('Error SW:', error);
+            updateConnectionStatus(false);
+          });
+      });
+    }
+
+    // Connection Status
+    function updateConnectionStatus(isOnline) {
+      const status = document.getElementById('connectionStatus');
+      if (navigator.onLine && isOnline) {
+        status.textContent = '🟢 Conectado';
+        status.className = 'text-center text-xs mt-2 text-green-200';
+      } else {
+        status.textContent = '🔴 Modo offline';
+        status.className = 'text-center text-xs mt-2 text-red-200';
+      }
+    }
+
+    window.addEventListener('online', () => updateConnectionStatus(true));
+    window.addEventListener('offline', () => updateConnectionStatus(false));
+
+    // Datos de ejemplo - Paquetes NIIF y globales
+    const paquetes = [
+      {
+        nombre: "Paquete NIIF Grupo 1 (Empresas grandes)",
+        servicios: ["Convergencia a NIIF Plenas", "Auditoría de estados financieros", "Asesoría tributaria internacional"],
+        precio: 3200000
+      },
+      {
+        nombre: "Paquete NIIF Grupo 2 (Pymes)",
+        servicios: ["Implementación NIIF para Pymes", "Estados financieros básicos", "Declaración de renta anual"],
+        precio: 1800000
+      },
+      {
+        nombre: "Paquete NIIF Grupo 3 (Microempresas)",
+        servicios: ["Asesoría en régimen simple", "Contabilidad básica mensual", "Reporte DIAN (IVA, Retefuente)"],
+        precio: 950000
+      },
+      {
+        nombre: "Paquete Internacional (Visión Global)",
+        servicios: ["Consolidación multinacional", "Cumplimiento fiscal doble tributación", "Impuestos en USA/EU"],
+        precio: 5000000
+      }
+    ];
+
+    const paquetesDiv = document.getElementById("paquetes");
+    const historialUl = document.getElementById("historial");
+
+    // Renderizar paquetes
+    paquetes.forEach((p, index) => {
+      const card = document.createElement("div");
+      card.className = "p-4 bg-white rounded-xl shadow card flex flex-col justify-between";
+      card.innerHTML = `
+        <div>
+          <h3 class="font-bold text-lg mb-2">${p.nombre}</h3>
+          <ul class="list-disc list-inside text-sm mb-2">
+            ${p.servicios.map(s => `<li>${s}</li>`).join("")}
+          </ul>
+          <p class="text-green-700 font-bold text-sm mb-3">💰 Precio: $${p.precio.toLocaleString("es-CO")} COP</p>
+        </div>
+        <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm comprar" data-index="${index}">Reservar</button>
+      `;
+      paquetesDiv.appendChild(card);
+    });
+
+    // Almacenamiento usando variables en memoria (compatible con Claude.ai)
+    let comprasMemoria = [];
+
+    // Cargar historial
+    function cargarHistorial() {
+      historialUl.innerHTML = comprasMemoria.length === 0 
+        ? "<li class='text-gray-500'>Aún no has reservado paquetes</li>"
+        : comprasMemoria.map(c => `<li>✅ ${c.nombre} - $${c.precio.toLocaleString("es-CO")} COP</li>`).join("");
+    }
+    cargarHistorial();
+
+    // Manejar reservas
+    document.querySelectorAll(".comprar").forEach(btn => {
+      btn.addEventListener("click", e => {
+        const index = e.target.getAttribute("data-index");
+        const paquete = paquetes[index];
+        comprasMemoria.push(paquete);
+        cargarHistorial();
+        alert(`Reservaste: ${paquete.nombre}`);
+      });
+    });
+
+    // Inicializar estado de conexión
+    updateConnectionStatus(navigator.onLine);
+  </script>
+</body>
+</html>
